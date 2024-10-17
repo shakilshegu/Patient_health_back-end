@@ -50,7 +50,21 @@ const getPARequests = async (req, res) => {
     }
 };
 
+const getAllDataPAR = async (req, res) => {
+    try {
+        const allData = await PriorAuthorization.find().populate('patientId');
+        if (allData.length === 0) {
+            return res.status(404).json({ message: 'No prior authorizations found.' });
+        }
+        res.status(200).json(allData);
+    } catch (error) {
+        console.error('Error fetching prior authorizations:', error);
+        res.status(500).json({ message: 'Server error. Please try again later.' });
+    }
+};
+
 module.exports = {
     createPARequest,
-    getPARequests
+    getPARequests,
+    getAllDataPAR
 };
